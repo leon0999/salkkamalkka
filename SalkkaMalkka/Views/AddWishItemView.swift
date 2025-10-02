@@ -64,8 +64,8 @@ struct AddWishItemView: View {
                         .keyboardType(.URL)
                         .autocapitalization(.none)
 
-                    TextField("왜 사고 싶나요? (선택)", text: $memo, axis: .vertical)
-                        .lineLimit(3...6)
+                    TextField("왜 사고 싶나요? (선택)", text: $memo)
+                        .lineLimit(3)
                 }
 
                 Section {
@@ -87,13 +87,9 @@ struct AddWishItemView: View {
             }
             .navigationTitle("물건 등록")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("취소") {
-                        dismiss()
-                    }
-                }
-            }
+            .navigationBarItems(leading: Button("취소") {
+                dismiss()
+            })
             .sheet(isPresented: $showImagePicker) {
                 ImagePicker(image: $selectedImage)
             }

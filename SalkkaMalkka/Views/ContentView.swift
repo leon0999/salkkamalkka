@@ -48,8 +48,7 @@ struct ContentView: View {
                             viewModel.showAddSheet = true
                         }) {
                             Image(systemName: "plus")
-                                .font(.title2)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 22, weight: .semibold))
                                 .foregroundColor(.white)
                                 .frame(width: 60, height: 60)
                                 .background(Color.mintGreen)
@@ -63,14 +62,10 @@ struct ContentView: View {
             }
             .navigationTitle("살까말까")
             .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: StatsView(viewModel: viewModel)) {
-                        Image(systemName: "chart.bar.fill")
-                            .foregroundColor(.mintGreen)
-                    }
-                }
-            }
+            .navigationBarItems(trailing: NavigationLink(destination: StatsView(viewModel: viewModel)) {
+                Image(systemName: "chart.bar.fill")
+                    .foregroundColor(.mintGreen)
+            })
             .sheet(isPresented: $viewModel.showAddSheet) {
                 AddWishItemView(viewModel: viewModel)
             }

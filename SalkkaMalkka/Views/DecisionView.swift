@@ -16,6 +16,20 @@ struct DecisionView: View {
 
     var body: some View {
         VStack(spacing: 24) {
+            // 상단 닫기 버튼
+            HStack {
+                Spacer()
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 28))
+                        .foregroundColor(.gray.opacity(0.6))
+                }
+                .padding(.trailing)
+            }
+            .padding(.top, 8)
+
             Spacer()
 
             // 타이틀
@@ -133,6 +147,22 @@ struct DecisionView: View {
                     Text("더 이상 연장할 수 없어요 (최대 3회)")
                         .font(.caption)
                         .foregroundColor(.secondary)
+                }
+
+                // 나중에 다시 생각할게요 (뒤로 가기)
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "arrow.left.circle")
+                        Text("나중에 다시 생각할게요")
+                            .fontWeight(.semibold)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(.primary)
+                    .cornerRadius(12)
                 }
             }
             .padding(.horizontal)

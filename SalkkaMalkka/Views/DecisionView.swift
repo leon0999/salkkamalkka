@@ -18,7 +18,7 @@ struct DecisionView: View {
 
             // 타이틀
             VStack(spacing: 8) {
-                Text("⏰ 7일이 지났어요!")
+                Text("7일이 지났어요!")
                     .font(.title2)
                     .fontWeight(.bold)
 
@@ -63,18 +63,34 @@ struct DecisionView: View {
 
             // 선택 버튼들
             VStack(spacing: 12) {
-                // 구매하기
+                // 구매하러 가기 (링크 열기)
+                if let urlString = item.purchaseURL, !urlString.isEmpty, let url = URL(string: urlString) {
+                    Link(destination: url) {
+                        HStack {
+                            Image(systemName: "link.circle.fill")
+                            Text("구매할게요")
+                                .fontWeight(.semibold)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.coral)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                    }
+                }
+
+                // 구매 완료 버튼 (실제 구매 후 사용)
                 Button(action: {
                     viewModel.markAsPurchased(item)
                 }) {
                     HStack {
                         Image(systemName: "cart.fill")
-                        Text("구매할게요")
+                        Text("구매 완료했어요")
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.coral)
+                    .background(Color.purple.opacity(0.8))
                     .foregroundColor(.white)
                     .cornerRadius(12)
                 }
@@ -95,7 +111,7 @@ struct DecisionView: View {
                     .cornerRadius(12)
                 }
 
-                // 7일 더 생각하기
+                // 7일 더 생각하기 (D-Day일 때만 활성화)
                 if item.extensionCount < 3 {
                     Button(action: {
                         viewModel.extendWaitingPeriod(item)
@@ -107,10 +123,11 @@ struct DecisionView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.oceanBlue)
+                        .background(item.daysRemaining == 0 ? Color.oceanBlue : Color.gray.opacity(0.5))
                         .foregroundColor(.white)
                         .cornerRadius(12)
                     }
+                    .disabled(item.daysRemaining > 0)
                 } else {
                     Text("더 이상 연장할 수 없어요 (최대 3회)")
                         .font(.caption)

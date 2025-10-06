@@ -98,14 +98,14 @@ enum WishItemStatus: String, Codable {
         }
     }
 
-    var emoji: String {
+    var symbol: String {
         switch self {
         case .waiting:
-            return "⏳"
+            return "-"
         case .purchased:
-            return "💸"
+            return "X"
         case .abandoned:
-            return "✅"
+            return "O"
         }
     }
 }

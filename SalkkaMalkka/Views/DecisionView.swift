@@ -11,6 +11,8 @@ struct DecisionView: View {
     let item: WishItem
     @ObservedObject var viewModel: WishListViewModel
     @Environment(\.dismiss) var dismiss
+    @State private var showPurchaseConfirmation = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         VStack(spacing: 24) {
@@ -18,9 +20,15 @@ struct DecisionView: View {
 
             // 타이틀
             VStack(spacing: 8) {
-                Text("7일이 지났어요!")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                if item.daysRemaining > 0 {
+                    Text("고민할 시간이 \(item.daysRemaining)일 남았어요")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                } else {
+                    Text("고민할 시간이 끝났어요!")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                }
 
                 Text("아직도 필요한가요?")
                     .font(.headline)
@@ -63,34 +71,28 @@ struct DecisionView: View {
 
             // 선택 버튼들
             VStack(spacing: 12) {
-                // 구매하러 가기 (링크 열기)
-                if let urlString = item.purchaseURL, !urlString.isEmpty, let url = URL(string: urlString) {
-                    Link(destination: url) {
-                        HStack {
-                            Image(systemName: "link.circle.fill")
-                            Text("구매할게요")
-                                .fontWeight(.semibold)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.coral)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                    }
-                }
-
-                // 구매 완료 버튼 (실제 구매 후 사용)
+                // 구매하러 가기
                 Button(action: {
-                    viewModel.markAsPurchased(item)
+                    if let urlString = item.purchaseURL, !urlString.isEmpty, let url = URL(string: urlString) {
+                        // 링크 있으면 열기
+                        UIApplication.shared.open(url)
+                        // 잠시 후 구매 확인 Alert 표시
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            showPurchaseConfirmation = true
+                        }
+                    } else {
+                        // 링크 없으면 바로 구매 확인
+                        showPurchaseConfirmation = true
+                    }
                 }) {
                     HStack {
                         Image(systemName: "cart.fill")
-                        Text("구매 완료했어요")
+                        Text("구매할게요")
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.purple.opacity(0.8))
+                    .background(Color.coral)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                 }
@@ -111,8 +113,8 @@ struct DecisionView: View {
                     .cornerRadius(12)
                 }
 
-                // 7일 더 생각하기 (D-Day일 때만 활성화)
-                if item.extensionCount < 3 {
+                // 7일 더 생각하기 (D-Day일 때만 표시)
+                if item.daysRemaining == 0 && item.extensionCount < 3 {
                     Button(action: {
                         viewModel.extendWaitingPeriod(item)
                     }) {
@@ -123,12 +125,11 @@ struct DecisionView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(item.daysRemaining == 0 ? Color.oceanBlue : Color.gray.opacity(0.5))
+                        .background(Color.oceanBlue)
                         .foregroundColor(.white)
                         .cornerRadius(12)
                     }
-                    .disabled(item.daysRemaining > 0)
-                } else {
+                } else if item.daysRemaining == 0 && item.extensionCount >= 3 {
                     Text("더 이상 연장할 수 없어요 (최대 3회)")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -139,5 +140,21 @@ struct DecisionView: View {
             Spacer()
         }
         .padding()
+        .alert("정말 구매하셨나요?", isPresented: $showPurchaseConfirmation) {
+            Button("네", role: .destructive) {
+                viewModel.markAsPurchased(item)
+            }
+            Button("아니요", role: .cancel) {
+                // 아무것도 안 함
+            }
+        } message: {
+            Text("구매를 완료하셨다면 '네'를 선택해주세요.")
+        }
+        .onChange(of: scenePhase) { newPhase in
+            // 앱으로 돌아왔을 때 (외부 링크에서 복귀)
+            if newPhase == .active && item.purchaseURL != nil && !item.purchaseURL!.isEmpty {
+                // 이미 1초 delay로 Alert가 예약되어 있음
+            }
+        }
     }
 }

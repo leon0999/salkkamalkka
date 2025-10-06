@@ -124,8 +124,9 @@ struct CompletedItemRow: View {
 
             Spacer()
 
-            Text(item.status.emoji)
-                .font(.title3)
+            Text(item.status.symbol)
+                .font(.system(size: 18, weight: .bold, design: .monospaced))
+                .foregroundColor(item.status.color)
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)

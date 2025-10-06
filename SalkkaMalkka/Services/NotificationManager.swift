@@ -23,38 +23,59 @@ class NotificationManager {
         }
     }
 
-    /// 7일 후 알림 스케줄링
+    /// 7일 후 알림 스케줄링 (D-3, D-2, D-1, D-Day 매일 알림)
     func scheduleNotification(for item: WishItem) {
-        let content = UNMutableNotificationContent()
-        content.title = "⏰ 7일이 지났어요!"
-        content.body = "아직도 \(item.name)이(가) 필요한가요? (₩\(item.price.formatted()))"
-        content.sound = .default
-        content.badge = 1
-        content.userInfo = ["itemId": item.id.uuidString]
+        let calendar = Calendar.current
 
-        // 대기 종료 시각에 알림 발송
-        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: item.waitingUntil)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        // D-3부터 D-Day까지 알림 예약
+        for daysOffset in -3...0 {
+            guard let notificationDate = calendar.date(byAdding: .day, value: daysOffset, to: item.waitingUntil) else { continue }
 
-        let request = UNNotificationRequest(
-            identifier: item.id.uuidString,
-            content: content,
-            trigger: trigger
-        )
+            let content = UNMutableNotificationContent()
 
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("❌ 알림 스케줄링 실패: \(error.localizedDescription)")
+            if daysOffset == 0 {
+                // D-Day
+                content.title = "고민할 시간이 끝났어요!"
+                content.body = "아직도 \(item.name)이(가) 필요한가요? (₩\(item.price.formatted()))"
             } else {
-                print("✅ 알림 스케줄링 성공: \(item.name) - \(item.waitingUntil)")
+                // D-3, D-2, D-1
+                let daysLeft = abs(daysOffset)
+                content.title = "\(item.name)"
+                content.body = "고민할 시간이 \(daysLeft)일 남았어요! (₩\(item.price.formatted()))"
+            }
+
+            content.sound = .default
+            content.badge = 1
+            content.userInfo = ["itemId": item.id.uuidString]
+
+            let triggerDate = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: notificationDate)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+
+            let identifier = "\(item.id.uuidString)-D\(daysOffset)"
+            let request = UNNotificationRequest(
+                identifier: identifier,
+                content: content,
+                trigger: trigger
+            )
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("❌ 알림 스케줄링 실패 (D\(daysOffset)): \(error.localizedDescription)")
+                } else {
+                    print("✅ 알림 스케줄링 성공 (D\(daysOffset)): \(item.name) - \(notificationDate)")
+                }
             }
         }
     }
 
-    /// 알림 취소
+    /// 알림 취소 (D-3, D-2, D-1, D-Day 모두 취소)
     func cancelNotification(for item: WishItem) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.id.uuidString])
-        print("🗑️ 알림 취소: \(item.name)")
+        var identifiers: [String] = []
+        for daysOffset in -3...0 {
+            identifiers.append("\(item.id.uuidString)-D\(daysOffset)")
+        }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        print("🗑️ 알림 취소: \(item.name) (D-3 ~ D-Day)")
     }
 
     /// 모든 알림 취소

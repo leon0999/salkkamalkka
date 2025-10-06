@@ -124,9 +124,15 @@ struct CompletedItemRow: View {
 
             Spacer()
 
-            Text(item.status.symbol)
-                .font(.system(size: 18, weight: .bold, design: .monospaced))
-                .foregroundColor(item.status.color)
+            Text(item.status.label)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(.white)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(
+                    Capsule()
+                        .fill(item.status.color)
+                )
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)

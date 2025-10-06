@@ -98,14 +98,14 @@ enum WishItemStatus: String, Codable {
         }
     }
 
-    var symbol: String {
+    var label: String {
         switch self {
         case .waiting:
-            return "-"
+            return "대기"
         case .purchased:
-            return "X"
+            return "지출"
         case .abandoned:
-            return "O"
+            return "방지"
         }
     }
 }

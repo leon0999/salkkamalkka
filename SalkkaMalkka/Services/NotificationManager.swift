@@ -23,7 +23,7 @@ class NotificationManager {
         }
     }
 
-    /// 7일 후 알림 스케줄링 (D-3, D-2, D-1, D-Day 매일 알림)
+    /// 7일 후 알림 스케줄링 (D-3, D-2, D-1, D-Day 매일 저녁 8시 알림)
     func scheduleNotification(for item: WishItem) {
         let calendar = Calendar.current
 
@@ -48,8 +48,12 @@ class NotificationManager {
             content.badge = 1
             content.userInfo = ["itemId": item.id.uuidString]
 
-            let triggerDate = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: notificationDate)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+            // 저녁 8시(20:00)에 알림 발송 (사용자가 퇴근 후 확인하기 좋은 시간)
+            var triggerDateComponents = calendar.dateComponents([.year, .month, .day], from: notificationDate)
+            triggerDateComponents.hour = 20
+            triggerDateComponents.minute = 0
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
 
             let identifier = "\(item.id.uuidString)-D\(daysOffset)"
             let request = UNNotificationRequest(
@@ -62,7 +66,7 @@ class NotificationManager {
                 if let error = error {
                     print("❌ 알림 스케줄링 실패 (D\(daysOffset)): \(error.localizedDescription)")
                 } else {
-                    print("✅ 알림 스케줄링 성공 (D\(daysOffset)): \(item.name) - \(notificationDate)")
+                    print("✅ 알림 스케줄링 성공 (D\(daysOffset), 20:00): \(item.name)")
                 }
             }
         }

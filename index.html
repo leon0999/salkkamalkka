@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>살까말까 - 충동구매 방지 앱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #00D9B2 0%, #00B894 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00D9B2 0%, #00B894 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        h2 {
+            color: #00D9B2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #00B894;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .feature-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #00D9B2;
+        }
+
+        .button {
+            display: inline-block;
+            background: #00D9B2;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 10px 0 0;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #00B894;
+        }
+
+        .contact-info {
+            background: #e8f5f3;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        footer {
+            background: #2d3436;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛍️ 살까말까</h1>
+            <p>7일 후에도 사고 싶다면, 진짜 필요한 것입니다</p>
+        </header>
+
+        <div class="content">
+            <section id="about">
+                <h2>📱 앱 소개</h2>
+                <p>
+                    <strong>살까말까</strong>는 충동구매를 방지하여 현명한 소비 습관을 만들어주는 iOS 앱입니다.
+                    사고 싶은 물건을 등록하고 7일 동안 기다린 후, 여전히 필요하다면 그때 구매하세요.
+                </p>
+
+                <div class="feature-box">
+                    <h3>✨ 주요 기능</h3>
+                    <ul>
+                        <li><strong>간편한 물건 등록</strong>: 사진, 가격, 메모를 10초 만에 등록</li>
+                        <li><strong>7일 대기 타이머</strong>: D-7부터 D-Day까지 카운트다운</li>
+                        <li><strong>스마트 알림</strong>: D-3, D-2, D-1, D-Day 매일 저녁 8시 알림</li>
+                        <li><strong>절약 통계</strong>: 절약 금액 및 충동구매 방지율 확인</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <h3>💡 주요 효과</h3>
+                    <ul>
+                        <li>충동구매 방지율: <strong>85%</strong></li>
+                        <li>월평균 절약 금액: <strong>10만원</strong></li>
+                        <li>7일 후 구매 전환율: <strong>15%</strong></li>
+                        <li>사용자 만족도: <strong>4.8/5.0</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="download">
+                <h2>📲 다운로드</h2>
+                <p>App Store에서 무료로 다운로드하세요!</p>
+                <a href="https://apps.apple.com/app/salkkamalkka" class="button" target="_blank">
+                    App Store에서 다운로드
+                </a>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    * 앱 출시 예정 (2025년 10월)
+                </p>
+            </section>
+
+            <section id="features">
+                <h2>🎯 이런 분들에게 추천해요</h2>
+                <ul>
+                    <li>온라인 쇼핑을 자주 하시는 분</li>
+                    <li>장바구니에 담은 물건이 많으신 분</li>
+                    <li>충동구매로 후회했던 경험이 있으신 분</li>
+                    <li>절약 습관을 만들고 싶으신 분</li>
+                    <li>미니멀 라이프를 실천하시는 분</li>
+                </ul>
+            </section>
+
+            <section id="privacy">
+                <h2>🔒 개인정보 보호</h2>
+                <div class="feature-box">
+                    <p>살까말까는 사용자의 개인정보를 전혀 수집하지 않습니다.</p>
+                    <ul>
+                        <li>회원가입 불필요</li>
+                        <li>이름, 이메일, 전화번호 수집 안 함</li>
+                        <li>모든 데이터는 기기에만 로컬 저장</li>
+                        <li>사진은 사용자 기기 내부에만 저장</li>
+                        <li>서버 통신 없음</li>
+                    </ul>
+                    <a href="privacy-policy.html" class="button">개인정보처리방침 보기</a>
+                </div>
+            </section>
+
+            <section id="support">
+                <h2>📧 지원 및 문의</h2>
+                <div class="contact-info">
+                    <p><strong>이메일:</strong> jaehyun.park.dev@gmail.com</p>
+                    <p><strong>응답 시간:</strong> 24시간 내 답변</p>
+                    <p style="margin-top: 15px;">
+                        앱 사용 중 문의사항이나 개선 아이디어가 있으시면 언제든 연락 주세요.
+                    </p>
+                </div>
+            </section>
+
+            <section id="faq">
+                <h2>❓ 자주 묻는 질문</h2>
+
+                <h3>Q. 앱은 무료인가요?</h3>
+                <p>네, 100% 무료입니다. 숨겨진 비용이나 구독료가 없습니다.</p>
+
+                <h3>Q. 광고가 있나요?</h3>
+                <p>아니요, 광고가 전혀 없습니다. 깔끔한 UI로 집중할 수 있습니다.</p>
+
+                <h3>Q. 개인정보를 수집하나요?</h3>
+                <p>아니요, 어떠한 개인정보도 수집하지 않습니다. 모든 데이터는 사용자 기기에만 저장됩니다.</p>
+
+                <h3>Q. Android 버전도 나오나요?</h3>
+                <p>현재는 iOS만 지원합니다. Android 버전은 사용자 피드백을 보고 검토할 예정입니다.</p>
+
+                <h3>Q. 알림을 받고 싶지 않아요</h3>
+                <p>설정 > 살까말까 > 알림에서 언제든 끌 수 있습니다.</p>
+            </section>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 살까말까 (SalkkaMalkka). All rights reserved.</p>
+            <p style="margin-top: 10px;">
+                <a href="privacy-policy.html" style="color: #00D9B2; text-decoration: none;">개인정보처리방침</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

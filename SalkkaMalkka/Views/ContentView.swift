@@ -62,9 +62,18 @@ struct ContentView: View {
             }
             .navigationTitle("살까말까")
             .navigationBarTitleDisplayMode(.large)
-            .navigationBarItems(trailing: NavigationLink(destination: StatsView(viewModel: viewModel)) {
-                Image(systemName: "chart.bar.fill")
-                    .foregroundColor(.mintGreen)
+            .navigationBarItems(trailing: HStack(spacing: 16) {
+                // 통계 버튼
+                NavigationLink(destination: StatsView(viewModel: viewModel)) {
+                    Image(systemName: "chart.bar.fill")
+                        .foregroundColor(.mintGreen)
+                }
+
+                // 설정 버튼
+                NavigationLink(destination: SettingsView()) {
+                    Image(systemName: "gearshape.fill")
+                        .foregroundColor(.mintGreen)
+                }
             })
             .sheet(isPresented: $viewModel.showAddSheet) {
                 AddWishItemView(viewModel: viewModel)
@@ -74,7 +83,39 @@ struct ContentView: View {
                     DecisionView(item: item, viewModel: viewModel)
                 }
             }
+            .sheet(isPresented: $viewModel.showPaywall) {
+                PaywallView(isPresented: $viewModel.showPaywall)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    subscriptionBadge
+                }
+            }
         }
+    }
+
+    // MARK: - Subscription Badge
+
+    private var subscriptionBadge: some View {
+        HStack(spacing: 6) {
+            if viewModel.isPremium {
+                Image(systemName: "crown.fill")
+                    .foregroundColor(.yellow)
+                Text("프리미엄")
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.yellow)
+            } else {
+                Text(viewModel.slotsStatusText)
+                    .font(.caption2.weight(.medium))
+                    .foregroundColor(.secondary)
+            }
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(
+            Capsule()
+                .fill(viewModel.isPremium ? Color.yellow.opacity(0.1) : Color(UIColor.secondarySystemBackground))
+        )
     }
 }
 

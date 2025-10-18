@@ -336,7 +336,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MJDM727M35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SalkkaMalkka/Info.plist;
@@ -367,7 +367,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MJDM727M35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SalkkaMalkka/Info.plist;
@@ -394,20 +394,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B1000001 /* Build configuration list for PBXProject "SalkkaMalkka" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B2000001 /* Debug */,
-				B2000002 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A7000001 /* Build configuration list for PBXNativeTarget "SalkkaMalkka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B3000001 /* Debug */,
 				B3000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1000001 /* Build configuration list for PBXProject "SalkkaMalkka" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2000001 /* Debug */,
+				B2000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

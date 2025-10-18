@@ -32,8 +32,8 @@ struct AddWishItemView: View {
                             if let image = selectedImage {
                                 Image(uiImage: image)
                                     .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 120, height: 120)
+                                    .scaledToFit()
+                                    .frame(maxWidth: 200, maxHeight: 200)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                             } else {
                                 VStack(spacing: 8) {

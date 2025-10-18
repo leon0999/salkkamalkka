@@ -16,8 +16,10 @@ class WishListViewModel: ObservableObject {
     @Published var showAddSheet: Bool = false
     @Published var showDecisionSheet: Bool = false
     @Published var selectedItem: WishItem?
+    @Published var showPaywall: Bool = false // 🔥 Paywall 표시
 
     private var dataManager = DataManager.shared
+    private var storeManager = StoreKitManager.shared
     private var cancellables = Set<AnyCancellable>()
 
     init() {
@@ -37,6 +39,13 @@ class WishListViewModel: ObservableObject {
     // MARK: - Actions
 
     func addWishItem(name: String, price: Int, url: String?, memo: String?, imageData: Data?) {
+        // 🔥 상품 등록 제한 체크
+        guard canAddWishItem else {
+            print("⚠️ Cannot add more items - showing paywall")
+            showPaywall = true
+            return
+        }
+
         let item = WishItem(
             name: name,
             price: price,
@@ -100,5 +109,48 @@ class WishListViewModel: ObservableObject {
 
     var preventionRate: Double {
         userStats.preventionRate
+    }
+
+    // MARK: - Subscription Status
+
+    /// 현재 구독 티어
+    var currentTier: SubscriptionTier {
+        storeManager.subscriptionStatus.tier
+    }
+
+    /// 프리미엄 여부
+    var isPremium: Bool {
+        storeManager.subscriptionStatus.isPremium
+    }
+
+    /// 상품 추가 가능 여부
+    var canAddWishItem: Bool {
+        let currentCount = waitingItems.count
+        let maxCount = currentTier.maxWishItems
+
+        print("📊 Current items: \(currentCount)/\(maxCount == Int.max ? "∞" : "\(maxCount)")")
+
+        return currentCount < maxCount
+    }
+
+    /// 남은 슬롯 개수
+    var remainingSlots: Int {
+        let currentCount = waitingItems.count
+        let maxCount = currentTier.maxWishItems
+
+        if maxCount == Int.max {
+            return Int.max
+        }
+
+        return max(0, maxCount - currentCount)
+    }
+
+    /// 슬롯 상태 텍스트
+    var slotsStatusText: String {
+        if isPremium {
+            return "무제한"
+        } else {
+            return "\(remainingSlots)/3 남음"
+        }
     }
 }
